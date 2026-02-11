@@ -1,4 +1,4 @@
-SECTOR,CODE,NAME
+Sector,Stock_code,Stock_name
 Agricultural,EGAD,Eaagads Ltd
 Agricultural,KUKZ,Kakuzi Plc
 Agricultural,KAPC,Kapchorua Tea Kenya Plc
@@ -21,6 +21,7 @@ Banking,SCBK,Standard Chartered Bank Kenya Ltd
 Commercial and Services,DCON,Deacons (East Africa) Plc
 Commercial and Services,EVRD,Eveready East Africa Ltd
 Commercial and Services,XPRS,Express Kenya Plc
+Commercial and Services,HBE,Homeboyz Entertainment Plc
 Commercial and Services,KQ,Kenya Airways Plc
 Commercial and Services,LKL,Longhorn Publishers Plc
 Commercial and Services,NBV,Nairobi Business Ventures Ltd
@@ -33,14 +34,15 @@ Commercial and Services,SCAN,WPP ScanGroup Plc
 Construction and Allied,ARM,ARM Cement Plc
 Construction and Allied,BAMB,Bamburi Cement Ltd
 Construction and Allied,CRWN,Crown Paints Kenya Plc
-Construction and Allied,CABL,East African Cables Ltd
+Construction and Allied,CABL,East African Cables Plc
 Construction and Allied,PORT,East African Portland Cement Ltd
-Energy and Petroleum,KEGN,Kenya Electricity Generating Company Plc
-Energy and Petroleum,KPLC-P4,KPLC-P4
-Energy and Petroleum,KPLC-P7,KPLC-P7
-Energy and Petroleum,KPLC,Kenya Power and Lighting Company Plc
-Energy and Petroleum,TOTL,Total Kenya Ltd
-Energy and Petroleum,UMME,Umeme Ltd
+Construction and Allied,Energy and Petroleum,
+Construction and Allied,KEGN,Kenya Electricity Generating Company Plc
+Construction and Allied,KPLC-P4,KPLC-P4
+Construction and Allied,KPLC-P7,KPLC-P7
+Construction and Allied,KPLC,Kenya Power and Lighting Company Plc
+Construction and Allied,TOTL,TotalEnergies Marketing Kenya Plc
+Construction and Allied,UMME,Umeme Ltd
 Insurance,BRIT,Britam Holdings Plc
 Insurance,CIC,CIC Insurance Group Ltd
 Insurance,JUB,Jubilee Holdings Ltd
@@ -59,16 +61,14 @@ Manufacturing and Allied,CARB,Carbacid Investments Plc
 Manufacturing and Allied,EABL,East African Breweries Ltd
 Manufacturing and Allied,FTGH,Flame Tree Group Holdings Ltd
 Manufacturing and Allied,ORCH,Kenya Orchards Ltd
+Manufacturing and Allied,MSC,Mumias Sugar Company Ltd
 Manufacturing and Allied,UNGA,Unga Group Ltd
-Telecommunication and Technology,SCOM,Safaricom Plc
-Real Estate Investment Trusts,FAHR,Stanlib Fahari Income-REIT
+Telecommunication,SCOM,Safaricom Plc
+Real Estate Investment Trusts,LAPR,Laptrust Imara Income-REIT
 Exchange Traded Funds,GLD,ABSA NewGold ETF
-Indices,^FNK15,FTSE NSE Kenya 15 Index
-Indices,^FNK25,FTSE NSE Kenya 25 Index
+Indices,^N10I,NSE 10-Share Index
 Indices,^N20I,NSE 20-Share Index
 Indices,^N25I,NSE 25-Share Index
 Indices,^NASI,NSE All-Share Index
 Indices,^ZKEQTK,Zamara Kenya Equity Index (KES)
 Indices,^ZKEQTU,Zamara Kenya Equity Index (USD)
-,,
-,,
