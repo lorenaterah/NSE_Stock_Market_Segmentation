@@ -49,9 +49,7 @@ CLUSTERING_FEATURES = [
     "trading_frequency", "amihud_illiquidity",
 ]
 
-# ---------------------------------------------------------------------------
 # Automatic cluster label assignment
-# ---------------------------------------------------------------------------
 
 # Features used to score each cluster; higher value = higher risk/return
 # Risk tier labels — ordered from lowest to highest risk
