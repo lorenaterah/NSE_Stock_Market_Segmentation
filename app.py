@@ -946,6 +946,149 @@ with tab3:
         st.warning("⚠️ Time series data not found.")
 
 
+
+
+# TAB 4: ABOUT THE PROJECT
+
+with tab4:
+    st.header("ℹ️ About This Project")
+    
+    # Project Overview - Simple and direct
+    st.markdown("""
+    ### 🎯 What This Dashboard Does
+    This tool clusters **Nairobi Stock Exchange (NSE)** stocks into **4 risk profiles** using machine learning. 
+    It helps investors quickly identify stocks that match their risk tolerance.
+    
+    **Key achievement:** Improved clustering quality from *Silhouette 0.32 → 0.717* through advanced feature engineering.
+    """)
+    
+    # Quick Stats Row
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("📊 Stocks", f"{len(df_clustered)}", "NSE companies")
+    with col2:
+        st.metric("🔧 Features", "19", "Risk dimensions")
+    with col3:
+        st.metric("🎯 Clusters", "4", "Risk profiles")
+    with col4:
+        st.metric("📈 Silhouette", "0.717", "+0.397 improvement")
+    
+    st.markdown("---")
+    
+    # The Four Risk Profiles - Visual cards
+    st.subheader("📊 The Four Risk Profiles")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        <div style='background-color: #00CC9620; padding: 15px; border-radius: 10px; border-left: 5px solid #00CC96; margin-bottom: 15px;'>
+            <h4 style='color: #00CC96; margin:0;'>🟢 Low Risk</h4>
+            <p style='margin:5px 0 0 0;'>Stable, liquid stocks with consistent returns. Ideal for conservative investors.</p>
+        </div>
+        
+        <div style='background-color: #FFA15A20; padding: 15px; border-radius: 10px; border-left: 5px solid #FFA15A; margin-bottom: 15px;'>
+            <h4 style='color: #FFA15A; margin:0;'>🟠 Medium-Low Risk</h4>
+            <p style='margin:5px 0 0 0;'>Balanced risk/reward profile. Good for moderate risk tolerance.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div style='background-color: #EF553B20; padding: 15px; border-radius: 10px; border-left: 5px solid #EF553B; margin-bottom: 15px;'>
+            <h4 style='color: #EF553B; margin:0;'>🔴 Medium-High Risk</h4>
+            <p style='margin:5px 0 0 0;'>Growth-oriented stocks with higher volatility. For aggressive investors.</p>
+        </div>
+        
+        <div style='background-color: #AB63FA20; padding: 15px; border-radius: 10px; border-left: 5px solid #AB63FA; margin-bottom: 15px;'>
+            <h4 style='color: #AB63FA; margin:0;'>🟣 High Risk</h4>
+            <p style='margin:5px 0 0 0;'>Speculative stocks with large price swings. High risk, high potential reward.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # Methodology in 3 simple steps
+    st.subheader("🔬 How It Works")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        **1️⃣ Data Processing**
+        - 4 years of daily NSE data
+        - Cleaned & validated
+        - 57 liquid stocks
+        """)
+        
+    with col2:
+        st.markdown("""
+        **2️⃣ Feature Engineering** ⭐
+        - 19 risk indicators
+        - Technical + liquidity metrics
+        - Risk-adjusted returns
+        """)
+        
+    with col3:
+        st.markdown("""
+        **3️⃣ Clustering**
+        - K-Means algorithm
+        - 4 optimal clusters
+        - Silhouette validation
+        """)
+    
+    # Key insight expander
+    with st.expander("📈 **What Makes This Different?**"):
+        st.markdown("""
+        The magic is in **feature engineering**. Instead of just using volatility, we captured multiple risk dimensions:
+        
+        | Category | Features | What It Tells Us |
+        |----------|----------|------------------|
+        | **Risk Metrics** | Volatility, Drawdown, VaR | How much can you lose? |
+        | **Returns** | Sharpe ratio, Consistency | Is the risk worth it? |
+        | **Technical** | RSI, MACD, Momentum | What's the trend? |
+        | **Liquidity** | Volume, Amihud ratio | Can you trade it? |
+        
+        **Result:** Before, two stocks with similar volatility looked the same. Now we can tell apart:
+        - 🟢 A stable dividend payer from 
+        - 🔴 A distressed speculative stock
+        """)
+    
+    # Simple disclaimer
+    st.markdown("---")
+    st.subheader("⚠️ Important")
+    
+    warn_col1, warn_col2 = st.columns(2)
+    
+    with warn_col1:
+        st.warning("**📜 Not Financial Advice**")
+        st.caption("This is for **educational purposes only**. Always do your own research before investing.")
+        
+        st.info("**📊 Data Source**")
+        st.caption("Historical data from NSE (2021-2024). Past performance ≠ future results.")
+    
+    with warn_col2:
+        st.warning("**🔧 Model Limitations**")
+        st.caption("Based on price data only. Fundamentals (P/E, debt) not included. Use as screening tool, not final decision.")
+        
+        st.info("**🎯 Best Used For**")
+        st.caption("Quick risk screening • Portfolio diversification • Educational purposes")
+    
+    # Footer with links
+    st.markdown("---")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown("[![GitHub](https://img.shields.io/badge/GitHub-Repo-blue)](https://github.com/lorenaterah/NSE_Stock_Market_Segmentation)")
+    with col2:
+        st.markdown("[![Docs](https://img.shields.io/badge/Documentation-Guide-green)](PROJECT_GUIDE.md)")
+    with col3:
+        st.markdown("[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)")
+    with col4:
+        st.markdown(f"**v2.0** | {pd.Timestamp.now().year}")
+
+
+
+
 # TAB 5: TEAM MORINGA - DEVELOPERS
 
 with tab5:
@@ -955,7 +1098,7 @@ with tab5:
     # Team introduction
     st.markdown("""
     <div style='background-color: #404E4D; padding: 20px; border-radius: 10px; margin-bottom: 20px;'>
-        <p style='font-size: 16px;'>We are Group 3 from Moringa School's Data Science program. This NSE Stock Risk Profiler represents our 
+        <p style='font-size: 16px;'>We are Group 3 from Moringa School's Data Science program, DSF-FT14. This NSE Stock Risk Profiler represents our 
         collaborative effort to apply unsupervised learning techniques to real financial data from the Nairobi Securities Exchange.</p>
     </div>
     """, unsafe_allow_html=True)
@@ -1050,7 +1193,7 @@ with tab5:
         
         **Key Achievements:**
         - ✅ 19 financial features engineered from raw data
-        - ✅ Silhouette score improved from 0.32 → 0.78
+        - ✅ Silhouette score improved from 0.32 → 0.717
         - ✅ 57+ NSE stocks successfully clustered
         - ✅ Interactive dashboard with 6 functional tabs
         """)
@@ -1131,7 +1274,7 @@ with tab5:
     <div style='background-color: #2c3e50; padding: 20px; border-radius: 10px; text-align: center;'>
         <h4 style='color: white; margin:0;'>🔗 View Project on GitHub</h4>
         <a href="https://github.com/lorenaterah/NSE_Stock_Market_Segmentation" target="_blank" style='text-decoration: none;'>
-            <p style='color: #FF4B4B; font-size: 16px;'>https://github.com/lorenaterah/NSE_Stock_Market_Segmentation</p>
+            <p style='color: #0000ff; font-size: 16px;'>https://github.com/lorenaterah/NSE_Stock_Market_Segmentation</p>
         </a>
         <p style='color: white; font-size: 14px;'>⭐ Star us if you find this project useful!</p>
     </div>
@@ -1141,6 +1284,6 @@ with tab5:
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray; font-size: 12px;'>
-        <p><strong>Moringa School Group 3</strong> | Data Science Cohort | February 2026</p>
+        <p><strong>Moringa School Group 3</strong> | Data Science Cohort-DSFT-FT14 | February 2026</p>
     </div>
     """, unsafe_allow_html=True)
