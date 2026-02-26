@@ -964,7 +964,7 @@ with tab5:
     st.subheader("🌟 Team Members")
     
     # Row 1 of team members
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3) 
     
     with col1:
         st.markdown("""
