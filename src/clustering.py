@@ -1,4 +1,3 @@
-
 # Stock Clustering Module
 
 # grouping stocks into risk profiles using K-Means clustering.
@@ -207,3 +206,4 @@ class StockClusterer:
         X_scaled = self.scaler.transform(X)
         
         return self.model.predict(X_scaled)
+

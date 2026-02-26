@@ -49,17 +49,17 @@ CLUSTERING_FEATURES = [
     "trading_frequency", "amihud_illiquidity",
 ]
 
+# ---------------------------------------------------------------------------
 # Automatic cluster label assignment
+# ---------------------------------------------------------------------------
 
 # Features used to score each cluster; higher value = higher risk/return
 # Risk tier labels — ordered from lowest to highest risk
 _RISK_TIERS = [
     "Low Risk",           # very low volatility, small drawdown, high liquidity
-    "Low-Moderate Risk",  # below-average vol, modest drawdown
-    "Moderate Risk",      # average vol, balanced return profile
-    "Moderate-High Risk", # above-average vol, negative momentum possible
+    "Medium Low Risk",    # below-average vol, modest drawdown
+    "Medium High Risk",   # above-average vol, negative momentum possible
     "High Risk",          # high vol, large drawdown, poor sharpe
-    "Very High Risk",     # extreme vol/drawdown, likely speculative
 ]
 
 # Composite risk score weights
@@ -73,25 +73,83 @@ _RISK_WEIGHTS = {
 }
 
 
-def assign_cluster_labels(df_clustered, method_col="KMeans_Cluster", features=None):
+# ---------------------------------------------------------------------------
+# Custom cluster → risk label mappings (manually defined per method)
+# ---------------------------------------------------------------------------
 
+_CUSTOM_LABEL_MAPS = {
+    "KMeans_Cluster": {
+        0: "Low Risk",
+        1: "Medium High Risk",
+        2: "Medium Low Risk",
+        3: "High Risk (2)",
+    },
+    "Hierarchical_Cluster": {
+        0: "Medium High Risk",
+        1: "Low Risk",
+        2: "Medium Low Risk",
+        3: "High Risk",
+    },
+    "DBSCAN_Cluster": {
+        -1: "Unclassified",
+        0:  "Low-Moderate Risk",
+        1:  "Very High Risk",
+    },
+}
+
+
+def assign_cluster_labels(df_clustered, method_col="KMeans_Cluster", features=None):
+    """Assign human-readable risk labels to clusters using predefined custom maps.
+
+    Falls back to score-based automatic assignment for any method not listed
+    in _CUSTOM_LABEL_MAPS.
+    """
+
+    # --- Custom mapping path ---
+    if method_col in _CUSTOM_LABEL_MAPS:
+        final_map = _CUSTOM_LABEL_MAPS[method_col]
+
+        # Warn about any cluster IDs present in data but missing from the map
+        data_ids = set(df_clustered[method_col].unique())
+        mapped_ids = set(final_map.keys())
+        unmapped = data_ids - mapped_ids
+        if unmapped:
+            print("  WARNING: cluster IDs {} not in custom map — "
+                  "will appear as NaN in label column.".format(sorted(unmapped)))
+
+        label_col = method_col.replace("_Cluster", "_Risk_Label")
+        df_clustered[label_col] = df_clustered[method_col].map(final_map)
+
+        print("\nCustom risk labels [{}]:".format(method_col))
+        print("  {:<6}  {:<28}  {}".format("Cluster", "Risk Label", "n"))
+        print("  " + "-" * 50)
+        for cid in sorted(final_map.keys()):
+            lbl = final_map[cid]
+            n   = int((df_clustered[method_col] == cid).sum())
+            print("  {:<6}  {:<28}  {}".format(cid, lbl, n))
+
+        return final_map, label_col
+
+    # --- Fallback: automatic score-based assignment ---
     if features is None:
         features = CLUSTERING_FEATURES
 
     available = [f for f in features if f in df_clustered.columns]
-    profile = df_clustered.groupby(method_col)[available].mean()
 
-    # Use absolute values for drawdown / VaR (they are negative)
+    noise_ids = [cid for cid in df_clustered[method_col].unique() if cid == -1]
+    real_ids  = [cid for cid in df_clustered[method_col].unique() if cid != -1]
+
+    profile = df_clustered[df_clustered[method_col].isin(real_ids)].groupby(
+        method_col)[available].mean()
+
     profile_abs = profile.copy()
     for col in ["max_drawdown", "var_95"]:
         if col in profile_abs.columns:
             profile_abs[col] = profile_abs[col].abs()
 
-    # Normalise each feature to [0, 1] across clusters
     norm = (profile_abs - profile_abs.min()) / \
            (profile_abs.max() - profile_abs.min() + 1e-9)
 
-    # Compute weighted composite risk score per cluster
     composite = pd.Series(0.0, index=profile.index)
     total_weight = 0.0
     for feat, w in _RISK_WEIGHTS.items():
@@ -99,16 +157,17 @@ def assign_cluster_labels(df_clustered, method_col="KMeans_Cluster", features=No
             composite += norm[feat] * w
             total_weight += w
     if total_weight > 0:
-        composite /= total_weight  # re-normalise to [0, 1]
+        composite /= total_weight
 
-    # Map composite score → risk tier using equal-width bands
     n_tiers = len(_RISK_TIERS)
     label_map = {}
     for cluster_id, score in composite.items():
         tier_idx = min(int(score * n_tiers), n_tiers - 1)
         label_map[cluster_id] = _RISK_TIERS[tier_idx]
 
-    # Disambiguate duplicates by appending the cluster id suffix
+    for cid in noise_ids:
+        label_map[cid] = "Unclassified"
+
     seen = {}
     for cid, lbl in label_map.items():
         seen[lbl] = seen.get(lbl, 0) + 1
@@ -130,7 +189,7 @@ def assign_cluster_labels(df_clustered, method_col="KMeans_Cluster", features=No
     print("  " + "-" * 60)
     for cid in sorted(final_map.keys()):
         lbl   = final_map[cid]
-        score = composite[cid]
+        score = composite[cid] if cid in composite.index else float("nan")
         n     = int((df_clustered[method_col] == cid).sum())
         print("  {:<6}  {:<28}  {:>12.4f}  {}".format(cid, lbl, score, n))
 
