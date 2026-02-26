@@ -64,7 +64,7 @@ class StockClusterer:
             'rsi_mean', 'bb_width_mean',
             
             # Momentum
-            'momentum_30d', 'momentum_90d',
+            'momentum_20d', 'momentum_60d',
             
             # Liquidity risk
             'trading_frequency', 'amihud_illiquidity'
