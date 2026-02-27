@@ -1,4 +1,3 @@
-
 # Stock Clustering Module
 
 # grouping stocks into risk profiles using K-Means clustering.
@@ -64,7 +63,7 @@ class StockClusterer:
             'rsi_mean', 'bb_width_mean',
             
             # Momentum
-            'momentum_30d', 'momentum_90d',
+            'momentum_20d', 'momentum_60d',
             
             # Liquidity risk
             'trading_frequency', 'amihud_illiquidity'
@@ -207,3 +206,4 @@ class StockClusterer:
         X_scaled = self.scaler.transform(X)
         
         return self.model.predict(X_scaled)
+
