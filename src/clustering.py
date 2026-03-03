@@ -23,7 +23,7 @@ def find_optimal_clusters(df, feature_cols, max_clusters=8):
     results = {'n_clusters': [], 'inertia': [], 'silhouette': []}
     
     for k in range(2, max_clusters + 1):
-        kmeans = KMeans(n_clusters=k, random_state=42, n_init=50, max_iter=500)
+        kmeans = KMeans(n_clusters=k, random_state=42, n_init=100, max_iter=500)
         labels = kmeans.fit_predict(X_scaled)
         
         results['n_clusters'].append(k)
